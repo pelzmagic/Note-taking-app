@@ -1,4 +1,9 @@
+import { useState } from "react";
+
 export default function SignUp() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
   return (
     <div className="bg-neutral-100 min-h-screen flex justify-center items-center">
       <div className="bg-white py-10 px-4 rounded-xl flex flex-col gap-4 w-[91%] lg:w-[37.5%] md:w-[68%]">
@@ -16,9 +21,11 @@ export default function SignUp() {
               Email Address
             </label>
             <input
+              value={email}
               type="text"
               placeholder="email@example.com"
               className="py-3 px-4 outline-0 border border-neutral-300 rounded-lg text-neutral-500 font-inter font-normal text-sm leading-[120%] tracking-[-0.2px] placeholder-neutral-500"
+              onChange={(e) => setEmail(e.target.value)}
             />
           </div>
           <div className="flex flex-col gap-[6px]">
@@ -26,7 +33,13 @@ export default function SignUp() {
               Password
             </label>
             <div className="flex items-center justify-between py-3 px-4 border border-neutral-300 rounded-lg">
-              <input type="text" id="Password" className="w-[90%] outline-0 text-neutral-500 font-inter font-normal text-sm leading-[120%] tracking-[-0.2px]" />
+              <input
+                type="text"
+                value={password}
+                id="Password"
+                className="w-[90%] outline-0 text-neutral-500 font-inter font-normal text-sm leading-[120%] tracking-[-0.2px]"
+                onChange={(e) => setPassword(e.target.value)}
+              />
               <img src="/Show.png" alt="show icon" className="w-5 h-5" />
             </div>
             <div className="flex items-center gap-2">
