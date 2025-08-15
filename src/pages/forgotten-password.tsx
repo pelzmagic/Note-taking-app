@@ -1,4 +1,7 @@
+import { useState } from "react";
+
 export default function ForgottenPassword() {
+  const [email, setEmail] = useState("");
   return (
     <div className="bg-neutral-100 min-h-screen flex justify-center items-center">
       <div className="bg-white py-10 px-4 rounded-xl flex flex-col gap-4 w-[91%] lg:w-[37.5%] md:w-[68%]">
@@ -16,6 +19,8 @@ export default function ForgottenPassword() {
               Email Address
             </label>
             <input
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               type="text"
               placeholder="email@example.com"
               id="email"

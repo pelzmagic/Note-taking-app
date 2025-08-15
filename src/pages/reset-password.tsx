@@ -1,4 +1,8 @@
+import { useState } from "react";
+
 export default function ResetPassword() {
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   return (
     <div className="bg-neutral-100 min-h-screen flex justify-center items-center">
       <div className="bg-white py-10 px-4 rounded-xl flex flex-col gap-4 w-[91%] lg:w-[37.5%] md:w-[68%]">
@@ -16,7 +20,13 @@ export default function ResetPassword() {
               New Password
             </label>
             <div className="py-3 px-4 flex items-center justify-between border border-neutral-300 rounded-lg">
-              <input type="text" id="new password" className="w-[90%] outline-0 text-neutral-500 font-inter font-normal text-sm leading-[120%] tracking-[-0.2px]" />
+              <input
+                type="text"
+                id="new password"
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+                className="w-[90%] outline-0 text-neutral-500 font-inter font-normal text-sm leading-[120%] tracking-[-0.2px]"
+              />
               <img src="/Show.png" alt="show icon" className="w-5 h-5" />
             </div>
             <div className="flex items-center gap-2">
@@ -29,7 +39,13 @@ export default function ResetPassword() {
               Confirm New Password
             </label>
             <div className="py-3 px-4 flex items-center justify-between border border-neutral-300 rounded-lg">
-              <input type="text" id="confirm new password" className="w-[90%] outline-0 text-neutral-500 font-inter font-normal text-sm leading-[120%] tracking-[-0.2px]" />
+              <input
+                type="text"
+                id="confirm new password"
+                className="w-[90%] outline-0 text-neutral-500 font-inter font-normal text-sm leading-[120%] tracking-[-0.2px]"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+              />
               <img src="/Show.png" alt="show icon" className="w-5 h-5" />
             </div>
           </div>
