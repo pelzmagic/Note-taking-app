@@ -5,9 +5,10 @@ import Login from "./pages/login";
 import ForgottenPassword from "./pages/forgotten-password";
 import ResetPassword from "./pages/reset-password";
 import SignUp from "./pages/signup";
+import type { Session } from "@supabase/supabase-js";
 
 export default function App() {
-  const [session, setSession] = useState<any>(null);
+  const [session, setSession] = useState<Session | null>(null);
 
   const fetchSession = async () => {
     const currentSession = await supabase.auth.getSession();
