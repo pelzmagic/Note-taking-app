@@ -6,17 +6,23 @@ export default function SignUp() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (password.length < 8) {
+      setErrorMessage("Password must be atleast 8 characters");
+      return;
+    }
     const { error: signUpError } = await supabase.auth.signUp({ email, password });
     if (signUpError) {
-      console.error("Error signing up:", signUpError.message);
+      setErrorMessage(signUpError.message);
       return;
     } else {
       const { error: signInError } = await supabase.auth.signInWithPassword({ email, password });
       if (signInError) {
-        console.error("Error signing up:", signInError.message);
+        setErrorMessage(signInError.message);
         return;
       }
     }
@@ -73,12 +79,16 @@ export default function SignUp() {
               />
               <img src="/Show.png" alt="show icon" className="w-5 h-5" />
             </div>
-            <div className="flex items-center gap-2">
-              <img src="/info circle.png" alt="info icon" className="w-4 h-4" />
-              <p className="font-inter font-normal text-xs text-neutral-600">At least 8 characters</p>
-            </div>
+            {errorMessage ? (
+              <p className="font-inter font-normal text-xs text-red-500">{errorMessage}</p>
+            ) : (
+              <div className="flex items-center gap-2">
+                <img src="/info circle.png" alt="info icon" className="w-4 h-4" />
+                <p className="font-inter font-normal text-xs text-neutral-600">At least 8 characters</p>
+              </div>
+            )}
           </div>
-          <button className="py-3 px-4 bg-blue-500 rounded-lg text-white font-inter font-semibold text-base leading-[120%] tracking-[-0.3px]">Sign Up</button>
+          <button className="py-3 px-4 bg-blue-500 rounded-lg text-white font-inter font-semibold text-base leading-[120%] tracking-[-0.3px] cursor-pointer">Sign Up</button>
         </form>
         <div className="pt-6 border-t border-neutral-300 flex flex-col gap-4">
           <p className="text-neutral-600 font-inter font-normal text-sm leading-[120%] tracking-[-0.2px] text-center">or log in with:</p>
