@@ -73,14 +73,10 @@ export default function SignUp() {
               />
               <img src="/Show.png" alt="show icon" className="w-5 h-5" />
             </div>
-            {password.length < 8 ? (
-              <p className="font-inter font-normal text-xs text-red-500">password should be atleast 8 characters</p>
-            ) : (
-              <div className="flex items-center gap-2">
-                <img src="/info circle.png" alt="info icon" className="w-4 h-4" />
-                <p className="font-inter font-normal text-xs text-neutral-600">At least 8 characters</p>
-              </div>
-            )}
+            <div className="flex items-center gap-2">
+              <img src="/info circle.png" alt="info icon" className="w-4 h-4" />
+              <p className="font-inter font-normal text-xs text-neutral-600">At least 8 characters</p>
+            </div>
           </div>
           <button className="py-3 px-4 bg-blue-500 rounded-lg text-white font-inter font-semibold text-base leading-[120%] tracking-[-0.3px]">Sign Up</button>
         </form>
@@ -93,7 +89,7 @@ export default function SignUp() {
                   <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                   <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z" />
                 </svg>
-                <p className="text-neutral-950 font-inter font-medium text-sm leading-[100%] tracking-[0.5px]">Redirecting...</p>
+                <p className="text-neutral-950 font-inter font-medium text-sm leading-[100%] tracking-[0.5px]">Please wait...</p>
               </div>
             ) : (
               <div className="flex items-center gap-2">
