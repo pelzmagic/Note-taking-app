@@ -6,26 +6,46 @@ export default function SignUp() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [generalError, setGeneralError] = useState("");
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setIsLoading(true);
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!emailRegex.test(email)) {
+      setEmailError("Please enter a valid email address");
+      setIsLoading(false);
+      return;
+    }
 
     if (password.length < 8) {
-      setErrorMessage("Password must be atleast 8 characters");
+      setPasswordError("Password must be atleast 8 characters");
+      setIsLoading(false);
       return;
     }
+
     const { error: signUpError } = await supabase.auth.signUp({ email, password });
     if (signUpError) {
-      setErrorMessage(signUpError.message);
-      return;
-    } else {
-      const { error: signInError } = await supabase.auth.signInWithPassword({ email, password });
-      if (signInError) {
-        setErrorMessage(signInError.message);
-        return;
+      if (signUpError.message.includes("User already registered")) {
+        setGeneralError("An account with this email already exists. Please log in");
+      } else {
+        setGeneralError(signUpError.message);
       }
+      setIsLoading(false);
+      return;
     }
+
+    const { error: signInError } = await supabase.auth.signInWithPassword({ email, password });
+    if (signInError) {
+      setGeneralError(signInError.message);
+      setIsLoading(false);
+      return;
+    }
+    setIsLoading(false);
   };
 
   const signInWithGoogle = async () => {
@@ -61,26 +81,40 @@ export default function SignUp() {
               value={email}
               type="text"
               placeholder="email@example.com"
-              className="py-3 px-4 outline-0 border border-neutral-300 rounded-lg text-neutral-500 font-inter font-normal text-sm leading-[120%] tracking-[-0.2px] placeholder-neutral-500"
-              onChange={(e) => setEmail(e.target.value)}
+              className={`py-3 px-4 outline-0 rounded-lg text-neutral-500 font-inter font-normal text-sm leading-[120%] tracking-[-0.2px] placeholder-neutral-500 ${
+                emailError ? "border border-red-500" : "border border-neutral-300 "
+              }`}
+              onChange={(e) => {
+                setEmail(e.target.value);
+                setEmailError("");
+              }}
             />
+            {emailError && (
+              <div className="flex items-center gap-2">
+                <img src="/info circle error.png" alt="info icon" className="w-4 h-4" />
+                <p className="font-inter font-normal text-xs text-red-500">{emailError}</p>
+              </div>
+            )}
           </div>
           <div className="flex flex-col gap-[6px]">
             <label htmlFor="Password" className="text-neutral-950 font-inter font-medium text-sm leading-[120%] tracking-[-0.2px]">
               Password
             </label>
-            <div className="flex items-center justify-between py-3 px-4 border border-neutral-300 rounded-lg">
+            <div className={`flex items-center justify-between py-3 px-4  rounded-lg ${passwordError ? "border border-red-500" : "border border-neutral-300"}`}>
               <input
-                type="text"
+                type="password"
                 value={password}
                 id="Password"
                 className="w-[90%] outline-0 text-neutral-500 font-inter font-normal text-sm leading-[120%] tracking-[-0.2px]"
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                  setPasswordError("");
+                }}
               />
               <img src="/Show.png" alt="show icon" className="w-5 h-5" />
             </div>
-            {errorMessage ? (
-              <p className="font-inter font-normal text-xs text-red-500">{errorMessage}</p>
+            {passwordError ? (
+              <p className="font-inter font-normal text-xs text-red-500">{passwordError}</p>
             ) : (
               <div className="flex items-center gap-2">
                 <img src="/info circle.png" alt="info icon" className="w-4 h-4" />
@@ -88,7 +122,9 @@ export default function SignUp() {
               </div>
             )}
           </div>
-          <button className="py-3 px-4 bg-blue-500 rounded-lg text-white font-inter font-semibold text-base leading-[120%] tracking-[-0.3px] cursor-pointer">Sign Up</button>
+          <button className="py-3 px-4 bg-blue-500 rounded-lg text-white font-inter font-semibold text-base leading-[120%] tracking-[-0.3px] cursor-pointer" type="submit" disabled={isLoading}>
+            {isLoading ? "Signing up..." : "Sign Up"}
+          </button>
         </form>
         <div className="pt-6 border-t border-neutral-300 flex flex-col gap-4">
           <p className="text-neutral-600 font-inter font-normal text-sm leading-[120%] tracking-[-0.2px] text-center">or log in with:</p>
