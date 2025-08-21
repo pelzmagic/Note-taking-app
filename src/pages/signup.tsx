@@ -11,6 +11,7 @@ export default function SignUp() {
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [isRedirecting, setIsRedirecting] = useState(false);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -52,14 +53,14 @@ export default function SignUp() {
 
   const signInWithGoogle = async () => {
     try {
-      setIsLoading(true);
+      setIsRedirecting(true);
       const { error } = await supabase.auth.signInWithOAuth({ provider: "google" });
       if (error) {
         console.error("Google sign-in error:", error.message);
       }
     } catch (err) {
       console.error("Unexpected error:", err);
-      setIsLoading(false);
+      setIsRedirecting(false);
     }
   };
 
@@ -130,8 +131,8 @@ export default function SignUp() {
         </form>
         <div className="pt-6 border-t border-neutral-300 flex flex-col gap-4">
           <p className="text-neutral-600 font-inter font-normal text-sm leading-[120%] tracking-[-0.2px] text-center">or log in with:</p>
-          <button className="flex items-center gap-4 py-3 px-4 rounded-xl border border-neutral-300 justify-center cursor-pointer" onClick={signInWithGoogle} disabled={isLoading}>
-            {isLoading ? (
+          <button className="flex items-center gap-4 py-3 px-4 rounded-xl border border-neutral-300 justify-center cursor-pointer" onClick={signInWithGoogle} disabled={isRedirecting}>
+            {isRedirecting ? (
               <div className="flex items-center gap-2">
                 <svg className="animate-spin h-5 w-5 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                   <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
