@@ -1,8 +1,40 @@
 import { useState } from "react";
+import { supabase } from "@/supabase-client";
+import { Link } from "react-router-dom";
+import type { FormEvent } from "react";
+import { toast } from "sonner";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsLoading(true);
+    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    if (error) {
+      toast.error("invalid log in details");
+      setIsLoading(false);
+      return;
+    }
+
+    window.location.href = "/reset-password";
+  };
+
+  const signInWithGoogle = async () => {
+    try {
+      setIsLoading(true);
+      const { error } = await supabase.auth.signInWithOAuth({ provider: "google" });
+      if (error) {
+        console.error("Google sign-in error:", error.message);
+      }
+    } catch (err) {
+      console.error("Unexpected error:", err);
+      setIsLoading(false);
+    }
+  };
 
   return (
     <div className="bg-neutral-100 min-h-screen flex justify-center items-center">
@@ -15,7 +47,7 @@ export default function Login() {
           <h1 className="text-neutral-950 text-2xl leading-[120%] tracking-[-0.5px] font-bold text-center">Welcome to Note</h1>
           <p className="text-neutral-600 font-normal text-sm leading-[120%] tracking-[-0.2px] text-center">Please log in to continue</p>
         </div>
-        <form className="pt-6 flex flex-col gap-4">
+        <form className="pt-6 flex flex-col gap-4" onSubmit={handleLogin}>
           <div className="flex flex-col gap-[6px]">
             <label htmlFor="email" className="text-neutral-950 font-medium text-sm leading-[120%] tracking-[-0.2px] font-inter">
               Email Address
@@ -34,7 +66,7 @@ export default function Login() {
               <label htmlFor="password" className="text-neutral-950 font-inter font-medium text-sm leading-[120%] tracking-[-0.2px]">
                 Password
               </label>
-              <button className="font-inter text-xs leading-[140%] font-normal border-b border-neutral-300 text-neutral-600">Forgot</button>
+              <button className="font-inter text-xs leading-[140%] font-normal border-b border-neutral-300 text-neutral-600 cursor-pointer hover:text-blue-500 hover:border-blue-500">Forgot</button>
             </div>
             <div className="border border-neutral-300 rounded-lg py-3 px-4 flex items-center justify-between">
               <input
@@ -44,22 +76,39 @@ export default function Login() {
                 id="password"
                 className="w-[90%] outline-0 text-neutral-500 font-inter font-normal text-sm leading-[120%] tracking-[-0.2px]"
               />
-              <img src="/Show.png" alt="eye icon" className="w-5 h-5" />
+              <img src="/Show.png" alt="eye icon" className="w-5 h-5 cursor-pointer" />
             </div>
           </div>
-          <button className="py-3 px-4 bg-blue-500 rounded-lg font-inter font-semibold text-base leading-[120%] tracking-[-0.3px] text-white">Login</button>
+          <button type="submit" disabled={isLoading} className="py-3 px-4 bg-blue-500 rounded-lg font-inter font-semibold text-base leading-[120%] tracking-[-0.3px] text-white">
+            {isLoading ? "Logging in..." : "Login"}
+          </button>
         </form>
         <div className="pt-6 flex flex-col gap-4">
           <p className="text-neutral-600 font-inter font-normal text-sm leading-[120%] tracking-[-0.2px] text-center">Or log in with:</p>
-          <div className="py-3 px-4 flex items-center gap-4 justify-center border border-neutral-300 rounded-xl">
-            <img src="/Google.png" alt="google icon" className="w-6 h-[25px]" />
-            <p className="text-neutral-950 font-inter font-medium text-base leading-[100%] tracking-[0.5px]">Google</p>
-          </div>
+          <button className="flex items-center gap-4 py-3 px-4 rounded-xl border border-neutral-300 justify-center cursor-pointer" onClick={signInWithGoogle} disabled={isLoading}>
+            {isLoading ? (
+              <div className="flex items-center gap-2">
+                <svg className="animate-spin h-5 w-5 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z" />
+                </svg>
+                <p className="text-neutral-950 font-inter font-medium text-sm leading-[100%] tracking-[0.5px]">Please wait...</p>
+              </div>
+            ) : (
+              <div className="flex items-center gap-2">
+                <img src="/Google.png" alt="google icon" className="w-6 h-[25px]" />
+                <p className="text-neutral-950 font-inter font-medium text-base leading-[100%] tracking-[0.5px]">Google</p>
+              </div>
+            )}
+          </button>
         </div>
         <hr className="border border-neutral-200" />
         <div className="flex items-center justify-center gap-1">
           <p className="font-inter font-normal text-sm leading-[120%] tracking-[-0.2px] text-neutral-600">No account yet?</p>
-          <button className="border-0 font-inter font-normal text-sm leading-[120%] tracking-[-0.2px] text-neutral-950">Sign Up</button>
+          <Link to="/signup">
+            {" "}
+            <button className="border-0 font-inter font-normal text-sm leading-[120%] tracking-[-0.2px] text-neutral-950 cursor-pointer">Sign Up</button>
+          </Link>
         </div>
       </div>
     </div>

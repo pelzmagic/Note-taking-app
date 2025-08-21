@@ -1,6 +1,8 @@
 import { useState } from "react";
 import type { FormEvent } from "react";
 import { supabase } from "../supabase-client";
+import { toast } from "sonner";
+import { Link } from "react-router-dom";
 
 export default function SignUp() {
   const [email, setEmail] = useState("");
@@ -8,7 +10,7 @@ export default function SignUp() {
   const [isLoading, setIsLoading] = useState(false);
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
-  const [generalError, setGeneralError] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -31,17 +33,17 @@ export default function SignUp() {
     const { error: signUpError } = await supabase.auth.signUp({ email, password });
     if (signUpError) {
       if (signUpError.message.includes("User already registered")) {
-        setGeneralError("An account with this email already exists. Please log in");
+        toast.error("An account with this email already exists. Please log in");
       } else {
-        setGeneralError(signUpError.message);
+        toast.error(signUpError.message);
       }
       setIsLoading(false);
       return;
     }
-
+    toast.success("Account created successfully!");
     const { error: signInError } = await supabase.auth.signInWithPassword({ email, password });
     if (signInError) {
-      setGeneralError(signInError.message);
+      toast.error(signInError.message);
       setIsLoading(false);
       return;
     }
@@ -102,7 +104,7 @@ export default function SignUp() {
             </label>
             <div className={`flex items-center justify-between py-3 px-4  rounded-lg ${passwordError ? "border border-red-500" : "border border-neutral-300"}`}>
               <input
-                type="password"
+                type={showPassword ? "text" : "password"}
                 value={password}
                 id="Password"
                 className="w-[90%] outline-0 text-neutral-500 font-inter font-normal text-sm leading-[120%] tracking-[-0.2px]"
@@ -111,7 +113,7 @@ export default function SignUp() {
                   setPasswordError("");
                 }}
               />
-              <img src="/Show.png" alt="show icon" className="w-5 h-5" />
+              <img src={showPassword ? "/Hide.png" : "/Show.png"} alt="toggle password visibility" className="w-5 h-5 cursor-pointer" onClick={() => setShowPassword((prev) => !prev)} />
             </div>
             {passwordError ? (
               <p className="font-inter font-normal text-xs text-red-500">{passwordError}</p>
@@ -147,7 +149,10 @@ export default function SignUp() {
         </div>
         <div className="flex items-center gap-1 justify-center pt-4 border-t border-neutral-300">
           <p className="text-neutral-600 font-inter font-normal text-sm leading-[120%] tracking-[-0.2px]">Already have an account?</p>
-          <button className="border-0 text-neutral-950 font-inter font-normal text-sm leading-[120%] tracking-[-0.2px] cursor-pointer">Login</button>
+          <Link to="/">
+            {" "}
+            <button className="border-0 text-neutral-950 font-inter font-normal text-sm leading-[120%] tracking-[-0.2px] cursor-pointer">Login</button>
+          </Link>
         </div>
       </div>
     </div>
