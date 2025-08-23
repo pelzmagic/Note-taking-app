@@ -112,9 +112,8 @@ export default function Login() {
         <hr className="border border-neutral-200" />
         <div className="flex items-center justify-center gap-1">
           <p className="font-inter font-normal text-sm leading-[120%] tracking-[-0.2px] text-neutral-600">No account yet?</p>
-          <Link to="/signup">
-            {" "}
-            <button className="border-0 font-inter font-normal text-sm leading-[120%] tracking-[-0.2px] text-neutral-950 cursor-pointer hover:text-blue-500">Sign Up</button>
+          <Link to="/signup" className="border-0 font-inter font-normal text-sm leading-[120%] tracking-[-0.2px] text-neutral-950 cursor-pointer hover:text-blue-500">
+            Sign Up
           </Link>
         </div>
       </div>
