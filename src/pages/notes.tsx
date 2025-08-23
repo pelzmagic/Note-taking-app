@@ -24,7 +24,7 @@ export default function Notes() {
           </div>
         </div>
       </div>
-      <div className="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center">
+      <div className="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center absolute right-4 bottom-20">
         <img src="/Plus.png" alt="plus icon" className="w-8 h-8" />
       </div>
     </div>
