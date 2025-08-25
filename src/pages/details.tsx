@@ -1,4 +1,4 @@
-export default function Notes() {
+export default function Details() {
   return (
     <div className="flex flex-col h-screen overflow-x-hidden relative">
       <div className="py-3 px-4 bg-neutral-100 flex items-center gap-3">
@@ -24,11 +24,23 @@ export default function Notes() {
           </div>
         </div>
       </div>
-      <div className="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center absolute right-4 bottom-20">
-        <img src="/Plus.png" alt="plus icon" className="w-8 h-8" />
-      </div>
-      <div className="py-5 px-4 flex-1 overflow-y-auto scrollbar-hidden flex flex-col gap-4 rounded-t-md">
-        <h1 className="font-inter font-2xl font-bold leading-[120%] tracking-[-0.5px] text-neutral-950">All Notes</h1>
+      <div className="py-5 px-4 flex-1 overflow-y-auto scrollbar-hidden flex flex-col gap-3 rounded-t-md">
+        <div className="flex items-center justify-between pb-3 border-b border-neutral-200">
+          <div className="flex items-center gap-1">
+            <img src="/arrow-left.png" alt="arrow icon" className="w-[18px] h-[18px]" />
+            <p className="font-inter font-normal text-sm leading-[120%] tracking-[-0.2px] text-neutral-600">Go Back</p>
+          </div>
+          <div className="flex items-center gap-4">
+            <button>
+              <img src="/delete.png" alt="delete icon" className="w-[18px] h-[18px]" />
+            </button>
+            <button>
+              <img src="/archive-note.png" alt="archive icon" className="w-[18px] h-[18px]" />{" "}
+            </button>
+            <button className="border-0 font-inter font-normal text-sm leading-[120%] tracking-[-0.2px] text-neutral-600">Cancel</button>
+            <button className="border-0 font-inter font-normal text-sm leading-[120%] tracking-[-0.2px] text-blue-500">Save Note</button>
+          </div>
+        </div>
       </div>
     </div>
   );
