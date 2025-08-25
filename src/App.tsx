@@ -7,6 +7,7 @@ import ResetPassword from "./pages/reset-password";
 import SignUp from "./pages/signup";
 import type { Session } from "@supabase/supabase-js";
 import { Toaster } from "sonner";
+import Notes from "./pages/notes";
 
 export default function App() {
   const [session, setSession] = useState<Session | null>(null);
@@ -28,9 +29,9 @@ export default function App() {
     };
   }, []);
 
-  const logout = async () => {
-    await supabase.auth.signOut();
-  };
+  // const logout = async () => {
+  //   await supabase.auth.signOut();
+  // };
 
   return (
     <>
@@ -39,19 +40,7 @@ export default function App() {
           <Route path="/" element={<Login />}></Route>
           <Route path="/forgotten-password" element={<ForgottenPassword />} />
           <Route path="/reset-password" element={<ResetPassword />} />
-          <Route
-            path="/signup"
-            element={
-              session ? (
-                <>
-                  <button onClick={logout}>Log out</button>
-                  <h1>How are you?</h1>{" "}
-                </>
-              ) : (
-                <SignUp />
-              )
-            }
-          />
+          <Route path="/signup" element={session ? <Notes /> : <SignUp />} />
         </Routes>
       </Router>
       <Toaster position="top-center" />
