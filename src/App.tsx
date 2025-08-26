@@ -8,6 +8,7 @@ import SignUp from "./pages/signup";
 import type { Session } from "@supabase/supabase-js";
 import { Toaster } from "sonner";
 import Notes from "./pages/notes";
+import Details from "./pages/details";
 
 export default function App() {
   const [session, setSession] = useState<Session | null>(null);
@@ -41,6 +42,7 @@ export default function App() {
           <Route path="/forgotten-password" element={<ForgottenPassword />} />
           <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/signup" element={session ? <Notes /> : <SignUp />} />
+          <Route path="/details" element={<Details />} />
         </Routes>
       </Router>
       <Toaster position="top-center" />

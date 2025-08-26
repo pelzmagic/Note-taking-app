@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 export default function Notes() {
   return (
     <div className="flex flex-col h-screen overflow-x-hidden relative">
@@ -24,9 +26,11 @@ export default function Notes() {
           </div>
         </div>
       </div>
-      <div className="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center absolute right-4 bottom-20">
-        <img src="/Plus.png" alt="plus icon" className="w-8 h-8" />
-      </div>
+      <Link to="/details">
+        <div className="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center absolute right-4 bottom-20">
+          <img src="/Plus.png" alt="plus icon" className="w-8 h-8" />
+        </div>
+      </Link>
       <div className="py-5 px-4 flex-1 overflow-y-auto scrollbar-hidden flex flex-col gap-4 rounded-t-md">
         <h1 className="font-inter font-2xl font-bold leading-[120%] tracking-[-0.5px] text-neutral-950">All Notes</h1>
       </div>
