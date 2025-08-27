@@ -22,6 +22,7 @@ export default function Notes() {
     if (error) console.error(error);
     else setNotes(data);
   }
+
   return (
     <div className="flex flex-col h-screen overflow-x-hidden relative">
       <div className="py-3 px-4 bg-neutral-100 flex items-center gap-3">
