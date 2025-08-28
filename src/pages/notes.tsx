@@ -24,8 +24,8 @@ export default function Notes() {
   }
 
   return (
-    <div className="flex flex-col h-screen overflow-x-hidden relative">
-      <div className="py-3 px-4 bg-neutral-100 flex items-center gap-3">
+    <div className="flex flex-col h-screen overflow-x-hidden relative bg-neutral-100">
+      <div className="py-3 px-4 flex items-center gap-3">
         <img src="/Feather.png" alt="logo icon" className="w-7 h-7" />
         <p className="font-pacifico text-black text-[23px] tracking-[-2%] font-normal">notes</p>
       </div>
@@ -53,7 +53,7 @@ export default function Notes() {
           <img src="/Plus.png" alt="plus icon" className="w-8 h-8" />
         </div>
       </Link>
-      <div className="py-5 px-4 flex-1 overflow-y-auto scrollbar-hidden flex flex-col gap-4 rounded-t-md">
+      <div className="py-5 px-4 flex-1 overflow-y-auto scrollbar-hidden flex flex-col gap-4 rounded-t-lg bg-white">
         <h1 className="font-inter font-2xl font-bold leading-[120%] tracking-[-0.5px] text-neutral-950">All Notes</h1>
         <div className="flex flex-col gap-[9px]">
           {notes.map((note: Note) => (

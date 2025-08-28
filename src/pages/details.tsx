@@ -14,8 +14,8 @@ export default function Details() {
   }
 
   return (
-    <div className="flex flex-col h-screen overflow-x-hidden relative">
-      <div className="py-3 px-4 bg-neutral-100 flex items-center gap-3">
+    <div className="flex flex-col h-screen overflow-x-hidden relative bg-neutral-100">
+      <div className="py-3 px-4 flex items-center gap-3">
         <img src="/Feather.png" alt="logo icon" className="w-7 h-7" />
         <p className="font-pacifico text-black text-[23px] tracking-[-2%] font-normal">notes</p>
       </div>
@@ -38,7 +38,7 @@ export default function Details() {
           </div>
         </div>
       </div>
-      <div className="py-5 px-4 flex-1 overflow-y-auto scrollbar-hidden flex flex-col gap-3 rounded-t-md">
+      <div className="py-5 px-4 flex-1 overflow-y-auto scrollbar-hidden flex flex-col gap-3 rounded-t-lg bg-white">
         <div className="flex items-center justify-between pb-3 border-b border-neutral-200">
           <Link to="/signup">
             <div className="flex items-center gap-1 cursor-pointer">
@@ -75,7 +75,10 @@ export default function Details() {
               <p className="text-neutral-950 font-inter font-normal text-xs leading-[120%] tracking-[-0.2px]">29 Oct 2024</p>
             </div>
           </div>
-          <textarea className="pt-3 h-[300px] overflow-y-auto scrollbar-hidden resize-none text-neutral-800 font-inter font-normal text-sm leading-[120%] tracking-[-0.2%] outline-0" />
+          <textarea
+            className="pt-3 h-[300px] overflow-y-auto scrollbar-hidden resize-none text-neutral-800 font-inter font-normal text-sm leading-[120%] tracking-[-0.2%] outline-0"
+            onChange={(e) => setContent(e.target.value)}
+          />
         </div>
       </div>
     </div>
