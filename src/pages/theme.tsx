@@ -8,7 +8,7 @@ export default function Theme() {
         <p className="font-pacifico text-black text-[23px] tracking-[-2%] font-normal">notes</p>
       </div>
       <div className="py-3 px-4 border-t border-neutral-200 absolute bottom-0 w-full shadow shadow-neutral-200 bg-white">
-        <div className="flex items-center">
+        <div className="flex items-center justify-between">
           <div className="py-1 w-[68.6px] hover:bg-blue-50 rounded-sm">
             <img src="/Home.png" alt="home icon" className="w-6 h-6 mx-auto" />
           </div>
@@ -63,6 +63,9 @@ export default function Theme() {
                 <RadioGroupItem value="three" />
               </div>
             </RadioGroup>
+          </div>
+          <div className="flex justify-end">
+            <button className="py-3 px-4 bg-blue-500 rounded-lg w-[38.42%] text-white font-inter text-sm font-medium leading-[120%] tracking-[-0.2px]">Apply Changes</button>
           </div>
         </div>
       </div>
