@@ -1,4 +1,3 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { supabase } from "./supabase-client";
 import Login from "./pages/login";
@@ -9,6 +8,15 @@ import type { Session } from "@supabase/supabase-js";
 import { Toaster } from "sonner";
 import Notes from "./pages/notes";
 import Details from "./pages/details";
+import ArchivedNote from "./pages/archived-note";
+import ArchivedDetails from "./pages/archived-details";
+import Tags from "./pages/tags";
+import TagNote from "./pages/tag-note";
+import SearchNote from "./pages/search-note";
+import Settings from "./pages/settings";
+import Theme from "./pages/theme";
+import { createBrowserRouter } from "react-router-dom";
+import { RouterProvider } from "react-router-dom";
 
 export default function App() {
   const [session, setSession] = useState<Session | null>(null);
@@ -34,17 +42,24 @@ export default function App() {
   //   await supabase.auth.signOut();
   // };
 
+  const router = createBrowserRouter([
+    { path: "/", element: <Login /> },
+    { path: "/forgotten-password", element: <ForgottenPassword /> },
+    { path: "/reset-password", element: <ResetPassword /> },
+    { path: "/signup", element: session ? <Notes /> : <SignUp /> },
+    { path: "/details", element: <Details /> },
+    { path: "/archived", element: <ArchivedNote /> },
+    { path: "/archived-details", element: <ArchivedDetails /> },
+    { path: "/tags", element: <Tags /> },
+    { path: "/tag-note", element: <TagNote /> },
+    { path: "/search", element: <SearchNote /> },
+    { path: "/settings", element: <Settings /> },
+    { path: "/theme", element: <Theme /> },
+  ]);
+
   return (
     <>
-      <Router>
-        <Routes>
-          <Route path="/" element={<Login />}></Route>
-          <Route path="/forgotten-password" element={<ForgottenPassword />} />
-          <Route path="/reset-password" element={<ResetPassword />} />
-          <Route path="/signup" element={session ? <Notes /> : <SignUp />} />
-          <Route path="/details" element={<Details />} />
-        </Routes>
-      </Router>
+      <RouterProvider router={router} />
       <Toaster position="top-center" />
     </>
   );
