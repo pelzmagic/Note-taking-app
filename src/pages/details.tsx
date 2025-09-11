@@ -58,21 +58,26 @@ export default function Details() {
           </div>
         </div>
         <div className="flex flex-col gap-3">
-          <textarea value={title} onChange={(e) => setTitle(e.target.value)} className="resize-none text-neutral-950 outline-0 text-2xl leading-[120%] tracking-[-0.5px] font-inter font-bold" />
+          <textarea
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            className="resize-none text-neutral-950 placeholder-neutral-950 outline-0 text-2xl leading-[120%] tracking-[-0.5px] font-inter font-bold"
+            placeholder="Enter a title..."
+          />
           <div className="flex flex-col gap-1 border-b border-neutral-200 pb-3">
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 border border-red-500">
               <div className="w-[33.53%] py-1 flex items-center gap-[6px]">
                 <img src="/Tag.png" alt="tag icon" className="w-4 h-4" />
                 <p className="text-neutral-700 font-inter font-normal text-xs leading-[120%] tracking-[-0.2px]">Tags</p>
               </div>
-              <input type="text" className="text-neutral-950 font-inter font-normal text-xs leading-[120%] tracking-[-0.2px] outline-0 w-full" />
+              <input type="text" className="text-neutral-950 font-inter font-normal text-xs leading-[120%] tracking-[-0.2px] outline-0 w-full border border-neutral-950 rounded-sm" />
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 border border-red-500">
               <div className="w-[33.53%] py-1 flex items-center gap-[6px]">
                 <img src="/Circle Clock.png" alt="clock icon" className="w-4 h-4" />
                 <p className="text-neutral-700 font-inter font-normal text-xs leading-[120%] tracking-[-0.2px]">Last edited</p>
               </div>
-              <p className="text-neutral-950 font-inter font-normal text-xs leading-[120%] tracking-[-0.2px]">29 Oct 2024</p>
+              <p className="text-neutral-950 font-inter font-normal text-xs leading-[120%] tracking-[-0.2px]">Not yet saved</p>
             </div>
           </div>
           <textarea
