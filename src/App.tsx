@@ -15,8 +15,10 @@ import TagNote from "./pages/tag-note";
 import SearchNote from "./pages/search-note";
 import Settings from "./pages/settings";
 import Theme from "./pages/theme";
+import FontOptions from "./pages/font-options";
 import { createBrowserRouter } from "react-router-dom";
 import { RouterProvider } from "react-router-dom";
+import ChangePassword from "./pages/change-password";
 
 export default function App() {
   const [session, setSession] = useState<Session | null>(null);
@@ -55,6 +57,8 @@ export default function App() {
     { path: "/search", element: <SearchNote /> },
     { path: "/settings", element: <Settings /> },
     { path: "/theme", element: <Theme /> },
+    { path: "/font-options", element: <FontOptions /> },
+    { path: "/change-password", element: <ChangePassword /> },
   ]);
 
   return (
