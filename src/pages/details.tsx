@@ -24,7 +24,7 @@ export default function Details({ session }: DetailsProps) {
       return;
     }
 
-    const { error: insertError } = await supabase.from("user-notes").insert([{ title, content, user_id: session.user.id }]);
+    const { error: insertError } = await supabase.from("user-notes").insert([{ title, content, user_id: session.user.id, tag }]);
 
     if (insertError) {
       console.error("Error saving notes:", insertError.message);
