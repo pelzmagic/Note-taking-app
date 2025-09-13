@@ -114,6 +114,7 @@ export default function Details({ session }: DetailsProps) {
             placeholder="Start typing your notes here..."
             className="pt-3 h-[300px] overflow-y-auto scrollbar-hidden resize-none text-neutral-800 font-inter font-normal text-sm leading-[120%] tracking-[-0.2%] outline-0 placeholder-neutral-700"
             onChange={(e) => setContent(e.target.value)}
+            value={content}
           />
         </div>
       </div>
