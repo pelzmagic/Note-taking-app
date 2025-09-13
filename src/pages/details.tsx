@@ -21,12 +21,12 @@ export default function Details() {
       return;
     }
 
-    const { data, error: insertError } = await supabase.from(user - notes).insert([{ title, content, user_id: user.id }]);
+    const { error: insertError } = await supabase.from("user-notes").insert([{ title, content, user_id: user.id }]);
 
     if (insertError) {
       console.error("Error saving notes:", insertError.message);
     } else {
-      toast.success("Note saved:", data);
+      toast.success("Note saved successfully!");
     }
   }
 
@@ -71,7 +71,9 @@ export default function Details() {
               <img src="/archive-note.png" alt="archive icon" className="w-[18px] h-[18px] cursor-pointer" />{" "}
             </button>
             <button className="border-0 font-inter font-normal text-sm leading-[120%] tracking-[-0.2px] text-neutral-600 cursor-pointer">Cancel</button>
-            <button className="border-0 font-inter font-normal text-sm leading-[120%] tracking-[-0.2px] text-blue-500 cursor-pointer">Save Note</button>
+            <button className="border-0 font-inter font-normal text-sm leading-[120%] tracking-[-0.2px] text-blue-500 cursor-pointer" onClick={() => handleSave(title, content)}>
+              Save Note
+            </button>
           </div>
         </div>
         <div className="flex flex-col gap-3">
