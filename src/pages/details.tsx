@@ -2,33 +2,38 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import { supabase } from "@/supabase-client";
 import { toast } from "sonner";
+import type { Session } from "@supabase/supabase-js";
 
-export default function Details() {
+type DetailsProps = {
+  session: Session | null;
+};
+
+export default function Details({ session }: DetailsProps) {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [tag, setTag] = useState("");
 
-  async function handleSave(title: string, content: string) {
-    const {
-      data: { user },
-      error,
-    } = await supabase.auth.getUser();
-    if (error) {
-      console.error("Error fetching user:", error.message);
-      return;
-    }
-    if (!user) {
+  async function handleSave() {
+    if (!session?.user) {
       toast.error("You must be logged in to save a note.");
       return;
     }
 
-    const { error: insertError } = await supabase.from("user-notes").insert([{ title, content, user_id: user.id }]);
+    if (!title.trim() || !content.trim()) {
+      toast.error("Title and content cannot be empty.");
+      return;
+    }
+
+    const { error: insertError } = await supabase.from("user-notes").insert([{ title, content, user_id: session.user.id }]);
 
     if (insertError) {
       console.error("Error saving notes:", insertError.message);
     } else {
       toast.success("Note saved successfully!");
     }
+    setTitle("");
+    setContent("");
+    setTag("");
   }
 
   return (
@@ -72,7 +77,7 @@ export default function Details() {
               <img src="/archive-note.png" alt="archive icon" className="w-[18px] h-[18px] cursor-pointer" />{" "}
             </button>
             <button className="border-0 font-inter font-normal text-sm leading-[120%] tracking-[-0.2px] text-neutral-600 cursor-pointer">Cancel</button>
-            <button className="border-0 font-inter font-normal text-sm leading-[120%] tracking-[-0.2px] text-blue-500 cursor-pointer" onClick={() => handleSave(title, content)}>
+            <button className="border-0 font-inter font-normal text-sm leading-[120%] tracking-[-0.2px] text-blue-500 cursor-pointer" onClick={handleSave}>
               Save Note
             </button>
           </div>
@@ -85,14 +90,14 @@ export default function Details() {
             placeholder="Enter a title..."
           />
           <div className="flex flex-col gap-1 border-b border-neutral-200 pb-3">
-            <div className="flex items-start gap-2">
+            <div className="flex items-center gap-2">
               <div className="w-[33.53%] py-1 flex items-center gap-[6px]">
                 <img src="/Tag.png" alt="tag icon" className="w-4 h-4" />
                 <p className="text-neutral-700 font-inter font-normal text-xs leading-[120%] tracking-[-0.2px]">Tags</p>
               </div>
-              <textarea
+              <input
                 className="text-neutral-950 font-inter font-normal text-xs leading-[120%] tracking-[-0.2px] outline-0 w-full resize-none"
-                placeholder="Add tags separated by commas (e.g Work, Planning)"
+                placeholder="Add tags separated by commas"
                 onChange={(e) => setTag(e.target.value)}
                 value={tag}
               />
