@@ -6,6 +6,7 @@ import { toast } from "sonner";
 export default function Details() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const [tag, setTag] = useState("");
 
   async function handleSave(title: string, content: string) {
     const {
@@ -92,8 +93,8 @@ export default function Details() {
               <textarea
                 className="text-neutral-950 font-inter font-normal text-xs leading-[120%] tracking-[-0.2px] outline-0 w-full resize-none"
                 placeholder="Add tags separated by commas (e.g Work, Planning)"
-                onChange={(e) => setContent(e.target.value)}
-                value={content}
+                onChange={(e) => setTag(e.target.value)}
+                value={tag}
               />
             </div>
             <div className="flex items-center gap-2">
