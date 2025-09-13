@@ -1,15 +1,32 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { supabase } from "@/supabase-client";
+import { toast } from "sonner";
 
 export default function Details() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
 
-  async function handleSave() {
-    const { data, error } = await supabase.from("user-notes").insert([{ title, content, user_id }]);
+  async function handleSave(title: string, content: string) {
+    const {
+      data: { user },
+      error,
+    } = await supabase.auth.getUser();
     if (error) {
-      console.error(error);
+      console.error("Error fetching user:", error.message);
+      return;
+    }
+    if (!user) {
+      toast.error("You must be logged in to save a note.");
+      return;
+    }
+
+    const { data, error: insertError } = await supabase.from(user - notes).insert([{ title, content, user_id: user.id }]);
+
+    if (insertError) {
+      console.error("Error saving notes:", insertError.message);
+    } else {
+      toast.success("Note saved:", data);
     }
   }
 
@@ -73,6 +90,8 @@ export default function Details() {
               <textarea
                 className="text-neutral-950 font-inter font-normal text-xs leading-[120%] tracking-[-0.2px] outline-0 w-full resize-none"
                 placeholder="Add tags separated by commas (e.g Work, Planning)"
+                onChange={(e) => setContent(e.target.value)}
+                value={content}
               />
             </div>
             <div className="flex items-center gap-2">
