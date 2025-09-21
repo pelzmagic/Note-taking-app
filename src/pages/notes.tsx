@@ -55,19 +55,25 @@ export default function Notes() {
       </Link>
       <div className="py-5 px-4 flex-1 overflow-y-auto scrollbar-hidden flex flex-col gap-4 rounded-t-lg bg-white">
         <h1 className="font-inter font-2xl font-bold leading-[120%] tracking-[-0.5px] text-neutral-950">All Notes</h1>
-        <div className="flex flex-col gap-[9px]">
-          {notes.map((note: Note) => (
-            <div className="p-2 flex flex-col gap-3 border-b border-neutral-200" key={note.id}>
-              <h1 className="text-neutral-950 text-base leading-[120%] tracking-[-0.3px] font-inter font-bold">{note.title}</h1>
-              <div>
-                <div className="px-[6px] py-[2px] bg-neutral-200 rounded-sm">
-                  <p className="text-neutral-950 text-xs leading-[120%] tracking-[-0.2px] font-inter font-normal">Dev</p>
+        {notes.length > 1 ? (
+          <div className="flex flex-col gap-[9px] border border-red-500">
+            {notes.map((note: Note) => (
+              <div className="p-2 flex flex-col gap-3 border-b border-neutral-200" key={note.id}>
+                <h1 className="text-neutral-950 text-base leading-[120%] tracking-[-0.3px] font-inter font-bold">{note.title}</h1>
+                <div>
+                  <div className="px-[6px] py-[2px] bg-neutral-200 rounded-sm">
+                    <p className="text-neutral-950 text-xs leading-[120%] tracking-[-0.2px] font-inter font-normal">Dev</p>
+                  </div>
                 </div>
+                <p>{note.created_at}</p>
               </div>
-              <p>{note.created_at}</p>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        ) : (
+          <div className="p-2 bg-neutral-100 rounded-lg border border-neutral-200">
+            <p className="text-sm leading-[120%] tracking-[-0.2px] fontn-inter font-normal text-neutral-950">You don't have any notes yet. Start a new note to capture your thoughts and ideas.</p>
+          </div>
+        )}
       </div>
     </div>
   );
