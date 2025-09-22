@@ -40,9 +40,7 @@ export default function App() {
     };
   }, []);
 
-  // const logout = async () => {
-  //   await supabase.auth.signOut();
-  // };
+
 
   const router = createBrowserRouter([
     { path: "/", element: <Login /> },

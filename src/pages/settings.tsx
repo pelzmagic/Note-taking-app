@@ -1,4 +1,10 @@
+import { supabase } from "@/supabase-client";
+
 export default function Settings() {
+  const logout = async () => {
+    await supabase.auth.signOut();
+  };
+
   return (
     <div className="flex flex-col h-screen overflow-x-hidden relative bg-neutral-100">
       <div className="py-3 px-4 flex items-center gap-3">
@@ -39,7 +45,7 @@ export default function Settings() {
             <img src="/padlock.png" alt="type icon" className="w-5 h-5" />
             <p className="text-neutral-950 font-inter text-sm leading-[120%] tracking-[-0.2px] font-medium">Change Password</p>
           </div>
-          <div className="py-2 flex items-center gap-2">
+          <div className="py-2 flex items-center gap-2" onClick={logout}>
             <img src="/Logout.png" alt="type icon" className="w-5 h-5" />
             <p className="text-neutral-950 font-inter text-sm leading-[120%] tracking-[-0.2px] font-medium">Logout</p>
           </div>
