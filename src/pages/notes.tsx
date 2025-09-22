@@ -4,10 +4,10 @@ import { supabase } from "@/supabase-client";
 import { useEffect } from "react";
 
 type Note = {
-  title: "string";
-  created_at: "string";
-  id: "string";
-  content: "string";
+  title: string;
+  created_at: string;
+  id: string;
+  content: string;
   tag: string;
 };
 
@@ -68,7 +68,9 @@ export default function Notes() {
                     </div>
                   ))}
                 </div>
-                <p>{note.created_at}</p>
+                <p className="font-inter font-normal text-xs leading-[120%] tracking-[-0.2px] text-neutral-700">
+                  {new Date(note.created_at).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" })}
+                </p>
               </div>
             ))}
           </div>
