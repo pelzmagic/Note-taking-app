@@ -1,4 +1,34 @@
+import { Link, useParams } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { supabase } from "@/supabase-client";
+
+type Note = {
+  title: string;
+  created_at: string;
+  tag: string;
+  content: string;
+  id: string;
+};
+
 export default function Note() {
+  const { id } = useParams();
+  const [note, setNote] = useState<Note | null>(null);
+
+  useEffect(() => {
+    async function fetchNote() {
+      const { data, error } = await supabase.from("user-notes").select("*").eq("id", id).single();
+      if (error) {
+        console.log("Error fetching notes:", error.message);
+      } else {
+        setNote(data);
+      }
+    }
+    if (id) fetchNote();
+  }, [id]);
+
+  if (!note) {
+    return <p>Loading...</p>;
+  }
   return (
     <div className="flex flex-col h-screen overflow-x-hidden relative bg-neutral-100">
       <div className="py-3 px-4 flex items-center gap-3">
@@ -26,10 +56,10 @@ export default function Note() {
       </div>
       <div className="py-5 px-4 flex-1 overflow-y-auto scrollbar-hidden flex flex-col gap-3 rounded-t-lg bg-white">
         <div className="flex items-center justify-between pb-3 border-b border-neutral-200">
-          <div className="flex items-center gap-1 cursor-pointer">
+          <Link to="/signup" className="flex items-center gap-1 cursor-pointer">
             <img src="/arrow-left.png" alt="arrow icon" className="w-[18px] h-[18px]" />
             <p className="font-inter font-normal text-sm leading-[120%] tracking-[-0.2px] text-neutral-600">Go Back</p>
-          </div>
+          </Link>
           <div className="flex items-center gap-4">
             <button>
               <img src="/delete.png" alt="delete icon" className="w-[18px] h-[18px] cursor-pointer" />
@@ -38,8 +68,27 @@ export default function Note() {
               <img src="/archive-note.png" alt="archive icon" className="w-[18px] h-[18px] cursor-pointer" />{" "}
             </button>
             <button className="border-0 font-inter font-normal text-sm leading-[120%] tracking-[-0.2px] text-neutral-600 cursor-pointer">Cancel</button>
-            <button className="border-0 font-inter font-normal text-sm leading-[120%] tracking-[-0.2px] text-blue-500 cursor-pointer">Save Note</button>
           </div>
+        </div>
+        <div className="flex flex-col gap-3">
+          <h1 className="text-neutral-950 font-inter font-bold text-2xl leading-[120%] tracking-[-0.5px]">{note.title}</h1>
+          <div className="flex flex-col gap-1 border-b border-neutral-200 pb-3">
+            <div className="flex items-center gap-2">
+              <div className="w-[33.53%] py-1 flex items-center gap-[6px]">
+                <img src="/Tag.png" alt="tag icon" className="w-4 h-4" />
+                <p className="text-neutral-700 font-inter font-normal text-xs leading-[120%] tracking-[-0.2px]">Tags</p>
+              </div>
+              <p className="text-neutral-950 font-inter font-normal text-xs leading-[120%] tracking-[-0.2px]">{note.tag}</p>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="w-[33.53%] py-1 flex items-center gap-[6px]">
+                <img src="/Circle Clock.png" alt="clock icon" className="w-4 h-4" />
+                <p className="text-neutral-700 font-inter font-normal text-xs leading-[120%] tracking-[-0.2px]">Last edited</p>
+              </div>
+              <p className="text-neutral-700 font-inter font-normal text-xs leading-[120%] tracking-[-0.2px]"> {new Date(note.created_at).toLocaleString()}</p>
+            </div>
+          </div>
+          <p className="text-neutral-800 font-inter text-sm leading-[120%] tracking-[-0.2px]">{note.content}</p>
         </div>
       </div>
     </div>

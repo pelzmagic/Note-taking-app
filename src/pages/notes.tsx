@@ -59,19 +59,21 @@ export default function Notes() {
         {notes.length > 1 ? (
           <div className="flex flex-col gap-[9px]">
             {notes.map((note: Note) => (
-              <div className="p-2 flex flex-col gap-3 border-b border-neutral-200" key={note.id}>
-                <h1 className="text-neutral-950 text-base leading-[120%] tracking-[-0.3px] font-inter font-bold">{note.title}</h1>
-                <div className="flex items-center gap-1 flex-wrap">
-                  {note.tag?.split(",").map((t: string, index: number) => (
-                    <div className="px-[6px] py-[2px] bg-neutral-200 rounded-sm" key={index}>
-                      <p className="text-neutral-950 text-xs leading-[120%] tracking-[-0.2px] font-inter font-normal">{t.trim()}</p>
-                    </div>
-                  ))}
+              <Link to={`/note/${note.id}`} key={note.id}>
+                <div className="p-2 flex flex-col gap-3 border-b border-neutral-200" key={note.id}>
+                  <h1 className="text-neutral-950 text-base leading-[120%] tracking-[-0.3px] font-inter font-bold">{note.title}</h1>
+                  <div className="flex items-center gap-1 flex-wrap">
+                    {note.tag?.split(",").map((t: string, index: number) => (
+                      <div className="px-[6px] py-[2px] bg-neutral-200 rounded-sm" key={index}>
+                        <p className="text-neutral-950 text-xs leading-[120%] tracking-[-0.2px] font-inter font-normal">{t.trim()}</p>
+                      </div>
+                    ))}
+                  </div>
+                  <p className="font-inter font-normal text-xs leading-[120%] tracking-[-0.2px] text-neutral-700">
+                    {new Date(note.created_at).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" })}
+                  </p>
                 </div>
-                <p className="font-inter font-normal text-xs leading-[120%] tracking-[-0.2px] text-neutral-700">
-                  {new Date(note.created_at).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" })}
-                </p>
-              </div>
+              </Link>
             ))}
           </div>
         ) : (
