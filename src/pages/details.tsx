@@ -1,18 +1,19 @@
 import { Link } from "react-router-dom";
-import { useState } from "react";
 import { supabase } from "@/supabase-client";
 import { toast } from "sonner";
 import type { Session } from "@supabase/supabase-js";
 
 type DetailsProps = {
   session: Session | null;
+  title: string;
+  content: string;
+  tag: string;
+  setTitle: React.Dispatch<React.SetStateAction<string>>;
+  setContent: React.Dispatch<React.SetStateAction<string>>;
+  setTag: React.Dispatch<React.SetStateAction<string>>;
 };
 
-export default function Details({ session }: DetailsProps) {
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
-  const [tag, setTag] = useState("");
-
+export default function Details({ session, title, content, tag, setTitle, setContent, setTag }: DetailsProps) {
   async function handleSave() {
     if (!session?.user) {
       toast.error("You must be logged in to save a note.");
