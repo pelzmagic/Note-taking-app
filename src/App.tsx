@@ -19,9 +19,13 @@ import FontOptions from "./pages/font-options";
 import { createBrowserRouter } from "react-router-dom";
 import { RouterProvider } from "react-router-dom";
 import ChangePassword from "./pages/change-password";
+import Note from "./pages/note";
 
 export default function App() {
   const [session, setSession] = useState<Session | null>(null);
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+  const [tag, setTag] = useState("");
 
   const fetchSession = async () => {
     const currentSession = await supabase.auth.getSession();
@@ -40,14 +44,12 @@ export default function App() {
     };
   }, []);
 
-
-
   const router = createBrowserRouter([
     { path: "/", element: <Login /> },
     { path: "/forgotten-password", element: <ForgottenPassword /> },
     { path: "/reset-password", element: <ResetPassword /> },
     { path: "/signup", element: session ? <Notes /> : <SignUp /> },
-    { path: "/details", element: <Details session={session} /> },
+    { path: "/details", element: <Details session={session} title={title} content={content} tag={tag} setTitle={setTitle} setContent={setContent} setTag={setTag} /> },
     { path: "/archived", element: <ArchivedNote /> },
     { path: "/archived-details", element: <ArchivedDetails /> },
     { path: "/tags", element: <Tags /> },
@@ -57,6 +59,7 @@ export default function App() {
     { path: "/theme", element: <Theme /> },
     { path: "/font-options", element: <FontOptions /> },
     { path: "/change-password", element: <ChangePassword /> },
+    { path: "/note/:id", element: <Note /> },
   ]);
 
   return (
