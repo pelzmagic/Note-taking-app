@@ -14,7 +14,7 @@ type Note = {
 };
 
 export default function Note() {
-  const { id } = useParams();
+  const { id } = useParams<{ id: string }>();
   const [note, setNote] = useState<Note | null>(null);
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
@@ -50,6 +50,10 @@ export default function Note() {
     }
   }
 
+  function openModal() {
+    setShowModal(!showModal);
+  }
+
   return (
     <div className="flex flex-col h-screen overflow-x-hidden relative bg-neutral-100">
       <div className="py-3 px-4 flex items-center gap-3">
@@ -82,7 +86,7 @@ export default function Note() {
             <p className="font-inter font-normal text-sm leading-[120%] tracking-[-0.2px] text-neutral-600">Go Back</p>
           </Link>
           <div className="flex items-center gap-4">
-            <button>
+            <button onClick={openModal}>
               <img src="/delete.png" alt="delete icon" className="w-[18px] h-[18px] cursor-pointer" />
             </button>
             <button>
@@ -125,8 +129,16 @@ export default function Note() {
               </div>
             </div>
             <div className="py-4 px-5 border-t border-neutral-200 flex items-center gap-4 justify-end">
-              <button className="py-3 px-4 rounded-lg bg-neutral-100 text-neutral-600 font-inter font-medium text-sm leading-[120%] tracking-[-0.2px]">Cancel</button>
-              <button className="py-3 px-4 rounded-lg bg-red-500 text-white font-inter font-medium text-sm leading-[120%] tracking-[-0.2px]">Delete Note</button>
+              <button className="py-3 px-4 rounded-lg bg-neutral-100 text-neutral-600 font-inter font-medium text-sm leading-[120%] tracking-[-0.2px]" onClick={openModal}>
+                Cancel
+              </button>
+              <button
+                className="py-3 px-4 rounded-lg bg-red-500 text-white font-inter font-medium text-sm leading-[120%] tracking-[-0.2px]"
+                onClick={() => {
+                  if (id) deleteNote(id);
+                }}>
+                Delete Note
+              </button>
             </div>
           </div>
         </div>
