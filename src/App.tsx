@@ -48,7 +48,7 @@ export default function App() {
     { path: "/", element: <Login /> },
     { path: "/forgotten-password", element: <ForgottenPassword /> },
     { path: "/reset-password", element: <ResetPassword /> },
-    { path: "/signup", element: session ? <Notes /> : <SignUp /> },
+    { path: "/signup", element: session ? <Notes session={session} /> : <SignUp /> },
     { path: "/details", element: <Details session={session} title={title} content={content} tag={tag} setTitle={setTitle} setContent={setContent} setTag={setTag} /> },
     { path: "/archived", element: <ArchivedNote /> },
     { path: "/archived-details", element: <ArchivedDetails /> },

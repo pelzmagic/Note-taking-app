@@ -11,6 +11,7 @@ type Note = {
   tag: string;
   content: string;
   id: string;
+  archived: boolean;
 };
 
 export default function Note() {
@@ -18,6 +19,7 @@ export default function Note() {
   const [note, setNote] = useState<Note | null>(null);
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
+  const [showArchiveModal, setShowArchiveModal] = useState(false);
 
   useEffect(() => {
     async function fetchNote() {
@@ -50,8 +52,24 @@ export default function Note() {
     }
   }
 
+  async function archiveNote(id: string) {
+    const { error } = await supabase.from("user-notes").update({ archived: true }).eq("id", id);
+
+    if (error) {
+      console.error("Error archiving note", error.message);
+      toast.error("There was an error archiving your note.");
+    } else {
+      toast.success("Note archived!");
+      navigate(-1);
+    }
+  }
+
   function openModal() {
     setShowModal(!showModal);
+  }
+
+  function openArchiveModal() {
+    setShowArchiveModal(!showArchiveModal);
   }
 
   return (
@@ -90,7 +108,7 @@ export default function Note() {
               <img src="/delete.png" alt="delete icon" className="w-[18px] h-[18px] cursor-pointer" />
             </button>
             <button>
-              <img src="/archive-note.png" alt="archive icon" className="w-[18px] h-[18px] cursor-pointer" />{" "}
+              <img src="/archive-note.png" alt="archive icon" className="w-[18px] h-[18px] cursor-pointer" onClick={openArchiveModal} />{" "}
             </button>
             <button className="border-0 font-inter font-normal text-sm leading-[120%] tracking-[-0.2px] text-neutral-600 cursor-pointer">Cancel</button>
           </div>
@@ -138,6 +156,35 @@ export default function Note() {
                   if (id) deleteNote(id);
                 }}>
                 Delete Note
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      {showArchiveModal && (
+        <div className="absolute inset-0 bg-neutral-950/50 flex items-center justify-center">
+          <div className="w-[91.4%] bg-white border border-neutral-200 rounded-xl">
+            <div className="p-5 flex items-start gap-4">
+              <div className="bg-neutral-100 rounded-lg w-10 h-10 flex items-center justify-center shrink-0">
+                <img src="/Archive.png" alt="archive icon" className="w-6 h-[25px]" />
+              </div>
+              <div className="space-y-[6px]">
+                <h1 className="text-neutral-950 font-inter font-semibold text-base leading-[120%] tracking-[-0.3px]">Archive Note</h1>
+                <p className="text-neutral-700 font-inter font-normal text-sm leading-[120%] tracking-[-0.2px]">
+                  Are you sure you want to archive this note? You can find it in the Archived Notes section and restore it anytime.
+                </p>
+              </div>
+            </div>
+            <div className="py-4 px-5 border-t border-neutral-200 flex items-center gap-4 justify-end">
+              <button className="py-3 px-4 rounded-lg bg-neutral-100 text-neutral-600 font-inter font-medium text-sm leading-[120%] tracking-[0.2px]" onClick={openArchiveModal}>
+                Cancel
+              </button>
+              <button
+                className="py-3 px-4 rounded-lg bg-blue-500 text-white font-inter font-medium text-sm leading-[120%] tracking-[0.2px]"
+                onClick={() => {
+                  if (id) archiveNote(id);
+                }}>
+                Archive Note
               </button>
             </div>
           </div>

@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import { supabase } from "@/supabase-client";
 import { useEffect } from "react";
+import type { Session } from "@supabase/supabase-js";
 
 type Note = {
   title: string;
@@ -11,15 +12,16 @@ type Note = {
   tag: string;
 };
 
-export default function Notes() {
+export default function Notes({ session }: { session: Session | null }) {
   const [notes, setNotes] = useState<Note[]>([]);
 
   useEffect(() => {
+    if (!session) return;
     fetchNotes();
-  }, []);
+  }, [session]);
 
   async function fetchNotes() {
-    const { data, error } = await supabase.from("user-notes").select("*").order("created_at", { ascending: false });
+    const { data, error } = await supabase.from("user-notes").select("*").eq("archived", false).order("created_at", { ascending: false });
     if (error) console.error(error);
     else setNotes(data);
   }
