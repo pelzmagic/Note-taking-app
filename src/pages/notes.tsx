@@ -1,30 +1,25 @@
 import { Link } from "react-router-dom";
-import { useState } from "react";
 import { supabase } from "@/supabase-client";
 import { useEffect } from "react";
 import type { Session } from "@supabase/supabase-js";
+import type { NoteType } from "@/types";
 
-type Note = {
-  title: string;
-  created_at: string;
-  id: string;
-  content: string;
-  tag: string;
+type NotesProps = {
+  session: Session | null;
+  notes: NoteType[];
+  setNotes: React.Dispatch<React.SetStateAction<NoteType[]>>;
 };
 
-export default function Notes({ session }: { session: Session | null }) {
-  const [notes, setNotes] = useState<Note[]>([]);
-
+export default function Notes({ notes, setNotes }: NotesProps) {
   useEffect(() => {
-    if (!session) return;
-    fetchNotes();
-  }, [session]);
+    async function fetchNotes() {
+      const { data, error } = await supabase.from("user-notes").select("*").eq("archived", false).order("created_at", { ascending: false });
+      if (error) console.error(error);
+      else setNotes(data);
+    }
 
-  async function fetchNotes() {
-    const { data, error } = await supabase.from("user-notes").select("*").eq("archived", false).order("created_at", { ascending: false });
-    if (error) console.error(error);
-    else setNotes(data);
-  }
+    fetchNotes();
+  }, [setNotes]);
 
   return (
     <div className="flex flex-col h-screen overflow-x-hidden relative bg-neutral-100">
@@ -60,7 +55,7 @@ export default function Notes({ session }: { session: Session | null }) {
         <h1 className="font-inter font-2xl font-bold leading-[120%] tracking-[-0.5px] text-neutral-950">All Notes</h1>
         {notes.length > 1 ? (
           <div className="flex flex-col gap-[9px]">
-            {notes.map((note: Note) => (
+            {notes.map((note: NoteType) => (
               <Link to={`/note/${note.id}`} key={note.id}>
                 <div className="p-2 flex flex-col gap-3 border-b border-neutral-200" key={note.id}>
                   <h1 className="text-neutral-950 text-base leading-[120%] tracking-[-0.3px] font-inter font-bold">{note.title}</h1>

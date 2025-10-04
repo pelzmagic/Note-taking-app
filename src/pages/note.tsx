@@ -135,7 +135,7 @@ export default function Note() {
         </div>
       </div>
       {showModal && (
-        <div className="absolute inset-0 bg-neutral-950/50 flex items-center justify-center">
+        <div className="absolute inset-0 bg-neutral-950/50 flex items-center justify-center backdrop-blur-[2px]">
           <div className="w-[91.4%] bg-white border border-neutral-200 rounded-xl">
             <div className="p-5 flex items-start gap-4">
               <div className="bg-neutral-100 rounded-lg w-10 h-10 flex items-center justify-center shrink-0">
@@ -162,7 +162,7 @@ export default function Note() {
         </div>
       )}
       {showArchiveModal && (
-        <div className="absolute inset-0 bg-neutral-950/50 flex items-center justify-center">
+        <div className="absolute inset-0 bg-neutral-950/50 flex items-center justify-center backdrop-blur-[2px]">
           <div className="w-[91.4%] bg-white border border-neutral-200 rounded-xl">
             <div className="p-5 flex items-start gap-4">
               <div className="bg-neutral-100 rounded-lg w-10 h-10 flex items-center justify-center shrink-0">

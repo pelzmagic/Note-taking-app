@@ -20,12 +20,14 @@ import { createBrowserRouter } from "react-router-dom";
 import { RouterProvider } from "react-router-dom";
 import ChangePassword from "./pages/change-password";
 import Note from "./pages/note";
+import type { NoteType } from "./types";
 
 export default function App() {
   const [session, setSession] = useState<Session | null>(null);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [tag, setTag] = useState("");
+  const [notes, setNotes] = useState<NoteType[]>([]);
 
   const fetchSession = async () => {
     const currentSession = await supabase.auth.getSession();
@@ -48,9 +50,9 @@ export default function App() {
     { path: "/", element: <Login /> },
     { path: "/forgotten-password", element: <ForgottenPassword /> },
     { path: "/reset-password", element: <ResetPassword /> },
-    { path: "/signup", element: session ? <Notes session={session} /> : <SignUp /> },
+    { path: "/signup", element: session ? <Notes session={session} notes={notes} setNotes={setNotes} /> : <SignUp /> },
     { path: "/details", element: <Details session={session} title={title} content={content} tag={tag} setTitle={setTitle} setContent={setContent} setTag={setTag} /> },
-    { path: "/archived", element: <ArchivedNote /> },
+    { path: "/archived", element: <ArchivedNote notes={notes} /> },
     { path: "/archived-details", element: <ArchivedDetails /> },
     { path: "/tags", element: <Tags /> },
     { path: "/tag-note", element: <TagNote /> },
