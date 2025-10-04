@@ -35,12 +35,39 @@ export default function ArchivedNote({ notes }: ArchivedNoteProps) {
       <div className="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center absolute right-4 bottom-20">
         <img src="/Plus.png" alt="plus icon" className="w-8 h-8" />
       </div>
-      <div className="py-5 px-4 flex-1 overflow-y-auto scrollbar-hidden flex flex-col gap-2 rounded-t-lg bg-white border border-red-500">
+      <div className="py-5 px-4 flex-1 overflow-y-auto scrollbar-hidden flex flex-col gap-2 rounded-t-lg bg-white">
         <h1 className="text-neutral-950 font-inter text-2xl leading-[120%] tracking-[-0.5px] font-bold">Archived Notes</h1>
         <div className="flex flex-col gap-4">
           <p className="text-neutral-700 font-inter font-normal text-sm leading-[120%] tracking-[-0.2px]">All your archived notes are stored here. You can restore or delete them anytime.</p>
         </div>
-        {archivedNote.length > 1 ? <div className="flex flex-col gap-1 p-2"></div> : <p>How are you?</p>}
+        {archivedNote.length > 1 ? (
+          <div className="flex flex-col gap-1">
+            {archivedNote.map((note: NoteType) => (
+              <div className="p-2 flex flex-col gap-3">
+                <h1 className="text-neutral-950 text-base leading-[120%] tracking-[-0.3px] font-inter font-bold">{note.title}</h1>
+                <div className="flex items-center gap-1 flex-wrap">
+                  {note.tag?.split(",").map((t: string, index: number) => (
+                    <div className="px-[6px] py-[2px] bg-neutral-200 rounded-sm" key={index}>
+                      <p className="text-neutral-950 text-xs leading-[120%] tracking-[-0.2px] font-inter font-normal">{t.trim()}</p>
+                    </div>
+                  ))}
+                </div>
+                <p className="font-inter font-normal text-xs leading-[120%] tracking-[-0.2px] text-neutral-700">
+                  {new Date(note.created_at).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" })}
+                </p>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="p-2 bg-neutral-100 rounded-lg border border-neutral-200">
+            <p className="text-sm leading-[120%] tracking-[-0.2px] font-inter font-normal text-neutral-950">
+              No notes have been archived yet. Move notes here for safekeeping, or{" "}
+              <span>
+                <button className="border-b border-neutral-950">create a new note</button>
+              </span>
+            </p>
+          </div>
+        )}
       </div>
     </div>
   );

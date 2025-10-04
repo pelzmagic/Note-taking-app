@@ -75,7 +75,7 @@ export default function Notes({ notes, setNotes }: NotesProps) {
           </div>
         ) : (
           <div className="p-2 bg-neutral-100 rounded-lg border border-neutral-200">
-            <p className="text-sm leading-[120%] tracking-[-0.2px] fontn-inter font-normal text-neutral-950">You don't have any notes yet. Start a new note to capture your thoughts and ideas.</p>
+            <p className="text-sm leading-[120%] tracking-[-0.2px] font-inter font-normal text-neutral-950">You don't have any notes yet. Start a new note to capture your thoughts and ideas.</p>
           </div>
         )}
       </div>
